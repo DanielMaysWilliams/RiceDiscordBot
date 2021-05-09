@@ -85,6 +85,11 @@ async def corn(ctx):
 async def developers(ctx):
     await ctx.send(file=discord.File("developers.gif"))
 
+@bot.command(name='buckibot', help='Fuck you Nathan!')
+async def buckbot(ctx):
+    response = 'Nathan how could you do this to me'
+    await ctx.send(response)
+
 command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
