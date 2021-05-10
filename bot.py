@@ -124,8 +124,11 @@ async def ygo(ctx, *args):
     await ctx.send(response)
     
 @bot.command(name='mtg', help='Display a random MTG card')
-async def mtg(ctx):
-    req = Request('https://api.scryfall.com/cards/random', headers={'User-Agent': 'Mozilla/5.0'})
+async def mtg(ctx, *args):
+    if len(args):
+        req = Request('https://api.scryfall.com/cards/named?fuzzy=' + "%20".join(args), headers={'User-Agent': 'Mozilla/5.0'})
+    else: 
+        req = Request('https://api.scryfall.com/cards/random', headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read().decode('utf8')
     obj = json.loads(webpage)
     response = obj['image_uris']['normal']
