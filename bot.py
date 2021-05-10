@@ -109,15 +109,26 @@ async def conch(ctx):
     response = random.choice(conch_answers)
     await ctx.send(response)
    
-@bot.command(name='ygo', help='Display a random YuGiOh card!')
-async def ygo(ctx):
-    req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})
+@bot.command(name='ygo', help='Display a random YuGiOh card')
+async def ygo(ctx, *, arg):
+    if len(arg):
+        req = Request('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + arg, headers={'User-Agent': 'Mozilla/5.0'})
+    else:
+        req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})     
     webpage = urlopen(req).read().decode('utf8')
     obj = json.loads(webpage)
     response = obj['card_images'][0]['image_url']
     await ctx.send(response)
+    
+@bot.command(name='mtg', help='Display a random MTG card')
+async def mtg(ctx):
+    req = Request('https://api.scryfall.com/cards/random', headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read().decode('utf8')
+    obj = json.loads(webpage)
+    response = obj['image_uris']['normal']
+    await ctx.send(response)
    
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
