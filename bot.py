@@ -86,7 +86,7 @@ async def developers(ctx):
     await ctx.send(file=discord.File("developers.gif"))
 
 @bot.command(name='buckibot', help='Fuck you Nathan!')
-async def buckbot(ctx):
+async def buckibot(ctx):
     response = 'Nathan how could you do this to me'
     await ctx.send(response)
     
@@ -101,7 +101,7 @@ async def imposter(ctx):
     response = imposter_name + ' is the imposter!'
     await ctx.send(response)
     
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckbot, butterdog, imposter]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
