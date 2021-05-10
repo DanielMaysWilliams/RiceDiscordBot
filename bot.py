@@ -94,7 +94,14 @@ async def buckbot(ctx):
 async def butterdog(ctx):
     await ctx.send(file=discord.File("butterdog.jpg"))
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, butterdog]
+imposter_names = ['Ethan', 'Daniel', 'Nathan', 'Sujay', 'Archana', 'Elizabeth', 'Grace', 'Karin', 'Nick', 'Tiffany', 'Wynne', 'Kevin', 'Bib']
+@bot.command(name='imposter', help='There is one imposter among us')
+async def imposter(ctx):
+    imposter_name = imposter_names[int(sum([ord(c) for c in str(datetime.date.today())])) % len(imposter_names)]
+    response = imposter_name + ' is the imposter!'
+    await ctx.send(response)
+    
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckbot, butterdog, imposter]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
