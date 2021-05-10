@@ -110,8 +110,11 @@ async def conch(ctx):
     await ctx.send(response)
    
 @bot.command(name='ygo', help='Display a random YuGiOh card!')
-async def ygo(ctx):
-    req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})
+async def ygo(ctx, *, arg):
+    if len(arg):
+        req = Request('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + arg, headers={'User-Agent': 'Mozilla/5.0'})
+    else:
+        req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})     
     webpage = urlopen(req).read().decode('utf8')
     obj = json.loads(webpage)
     response = obj['card_images'][0]['image_url']
