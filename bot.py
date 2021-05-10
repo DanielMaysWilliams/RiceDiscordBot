@@ -89,8 +89,12 @@ async def developers(ctx):
 async def buckbot(ctx):
     response = 'Nathan how could you do this to me'
     await ctx.send(response)
+    
+@bot.command(name='butterdog', help='The dog with the butter on it')
+async def butterdog(ctx):
+    await ctx.send(file=discord.File("butterdog.jpg"))
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, butterdog]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
