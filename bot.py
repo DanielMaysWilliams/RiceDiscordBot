@@ -5,6 +5,8 @@ import random
 import datetime
 import re
 import discord
+from urllib.request import Request, urlopen
+import json
 
 from glob import glob
 from discord.ext import commands
@@ -97,11 +99,25 @@ async def butterdog(ctx):
 imposter_names = ['Ethan', 'Daniel', 'Nathan', 'Sujay', 'Archana', 'Elizabeth', 'Grace', 'Karin', 'Nick', 'Tiffany', 'Wynne', 'Kevin', 'Bib']
 @bot.command(name='imposter', help='There is one imposter among us')
 async def imposter(ctx):
-    imposter_name = imposter_names[int(sum([ord(c) for c in str(datetime.date.today())])) % len(imposter_names)]
+    imposter_name = imposter_names[sum([ord(c) for c in str(datetime.date.today())]) % len(imposter_names)] # converts date into unique list idx
     response = imposter_name + ' is the imposter!'
     await ctx.send(response)
-    
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter]
+  
+conch_answers = ["Yes.", "No.", "Maybe someday.", "Nothing.", "Neither.", "I don't think so.", "Try asking again."]
+@bot.command(name='conch', help='The Magic Conch shell')
+async def conch(ctx):
+    response = random.choice(conch_answers)
+    await ctx.send(response)
+   
+@bot.command(name='ygo', help='Display a random YuGiOh card!')
+async def ygo(ctx):
+    req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read().decode('utf8')
+    obj = json.loads(webpage)
+    response = obj['card_images'][0]['image_url']
+    await ctx.send(response)
+   
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
