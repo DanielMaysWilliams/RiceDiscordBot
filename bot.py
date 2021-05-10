@@ -100,8 +100,14 @@ async def imposter(ctx):
     imposter_name = imposter_names[int(sum([ord(c) for c in str(datetime.date.today())])) % len(imposter_names)]
     response = imposter_name + ' is the imposter!'
     await ctx.send(response)
-    
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter]
+  
+conch_answers = ["Yes.", "No.", "Maybe someday.", "Nothing.", "Neither.", "I don't think so.", "Try asking again."]
+@bot.command(name='conch', help='The Magic Conch shell')
+async def conch(ctx):
+    response = random.choice(conch_answers)
+    await ctx.send(response)
+   
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
