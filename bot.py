@@ -134,6 +134,14 @@ async def mtg(ctx, *args):
     response = obj['image_uris']['normal']
     await ctx.send(response)
    
+@bot.command(name='norm', help='Probably inappropriate jokes with Norm Macdonald')
+async def norm(ctx):
+    with open("jokes.list", 'r') as f:
+        jokes = f.read().split('\n,\n')
+
+    response = random.choice(jokes)
+    await ctx.send(response)
+
 command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
