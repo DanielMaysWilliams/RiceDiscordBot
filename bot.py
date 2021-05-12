@@ -100,7 +100,7 @@ imposter_names = ['Ethan', 'Daniel', 'Nathan', 'Sujay', 'Archana', 'Elizabeth', 
 @bot.command(name='imposter', help='There is one imposter among us')
 async def imposter(ctx):
     imposter_name = imposter_names[sum([ord(c) for c in str(datetime.date.today())]) % len(imposter_names)] # converts date into unique list idx
-    response = imposter_name + ' is the imposter!'
+    response = imposter_name + ' is the imposter today'
     await ctx.send(response)
   
 conch_answers = ["Yes.", "No.", "Maybe someday.", "Nothing.", "Neither.", "I don't think so.", "Try asking again."]
@@ -123,7 +123,7 @@ async def ygo(ctx, *args):
         response = obj['card_images'][0]['image_url']
     await ctx.send(response)
     
-@bot.command(name='mtg', help='Display a random MTG card')
+@bot.command(name='mtg', help='Display a MTG card')
 async def mtg(ctx, *args):
     if len(args):
         req = Request('https://api.scryfall.com/cards/named?fuzzy=' + "%20".join(args), headers={'User-Agent': 'Mozilla/5.0'})
@@ -141,12 +141,31 @@ async def norm(ctx):
 
     response = random.choice(jokes)
     await ctx.send(response)
+    
+@bot.command(name='sus', help='When the...')
+async def sus(ctx):
+    await ctx.send(file=discord.File("sus.png"))
+    
+@bot.command(name='when', help='When in doubt...')
+async def when(ctx, *args):
+    if ' '.join(args) == 'in doubt':
+        response = 'Nathan out'
+    elif ' '.join(args) == 'in doubt?':
+        response = 'Katie out'
+    elif ' '.join(args) == 'in doubt...':
+        response = 'Wynne out'
+    await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg, norm, sus, when]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
 
+@bot.command(name='github', help='GitHub repo link')
+async def github(ctx):
+    response = 'https://github.com/dmw2174/ChickenKitchenBot'
+    await ctx.send(response)
+    
 # @bot.command(name='create-channel')
 # @commands.has_role('admin')
 # async def create_channel(ctx, channel_name='test-channel'):
@@ -156,6 +175,5 @@ async def zombocom(ctx):
 #     if not existing_channel:
 #         print(f'Creating a new channel : {channel_name}')
 #         await guild.create_text_channel(channel_name)
-
 
 bot.run(TOKEN)
