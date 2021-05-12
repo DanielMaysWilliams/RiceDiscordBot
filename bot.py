@@ -143,7 +143,7 @@ async def norm(ctx):
     await ctx.send(response)
     
 @bot.command(name='sus', help='When the...')
-async def susctx):
+async def sus(ctx):
     await ctx.send(file=discord.File("sus.png"))
     
 @bot.command(name='when', help='When in doubt...')
