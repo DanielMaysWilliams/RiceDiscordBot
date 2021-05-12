@@ -145,27 +145,27 @@ async def norm(ctx):
 @bot.command(name='sus', help='When the...')
 async def susctx):
     await ctx.send(file=discord.File("sus.png"))
-   
-@bot.command(name='github', help='GitHub repo link')
-async def github(ctx):
-    response = 'https://github.com/dmw2174/ChickenKitchenBot'
-    await ctx.send(response)
     
 @bot.command(name='when', help='When in doubt...')
 async def when(ctx, *args):
     if ' '.join(args) == 'in doubt':
         response = 'Nathan out'
-    if ' '.join(args) == 'in doubt?':
+    elif ' '.join(args) == 'in doubt?':
         response = 'Katie out'
-    if ' '.join(args) == 'in doubt...':
+    elif ' '.join(args) == 'in doubt...':
         response = 'Wynne out'
     await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg, norm, sus]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg, norm, sus, when]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
 
+@bot.command(name='github', help='GitHub repo link')
+async def github(ctx):
+    response = 'https://github.com/dmw2174/ChickenKitchenBot'
+    await ctx.send(response)
+    
 # @bot.command(name='create-channel')
 # @commands.has_role('admin')
 # async def create_channel(ctx, channel_name='test-channel'):
@@ -175,6 +175,5 @@ async def zombocom(ctx):
 #     if not existing_channel:
 #         print(f'Creating a new channel : {channel_name}')
 #         await guild.create_text_channel(channel_name)
-
 
 bot.run(TOKEN)
