@@ -138,8 +138,17 @@ async def norm(ctx):
 
     response = random.choice(jokes)
     await ctx.send(response)
+    
+@bot.command(name='sus', help='When the...')
+async def susctx):
+    await ctx.send(file=discord.File("sus.png"))
+   
+@bot.command(name='github', help='GitHub repo link')
+async def github(ctx):
+    response = 'https://github.com/dmw2174/ChickenKitchenBot'
+    await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg, norm, sus]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
