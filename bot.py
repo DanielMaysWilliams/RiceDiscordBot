@@ -109,21 +109,18 @@ async def conch(ctx):
     response = random.choice(conch_answers)
     await ctx.send(response)
    
-@bot.command(name='ygo', help='Display a random YuGiOh card')
+@bot.command(name='ygo', help='Display a YuGiOh card')
 async def ygo(ctx, *args):
     if len(args):
         req = Request('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + "%20".join(args), headers={'User-Agent': 'Mozilla/5.0'})
-        webpage = urlopen(req).read().decode('utf8')
-        obj = json.loads(webpage)
-        response = obj['data'][0]['card_images'][0]['image_url']
     else:
         req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})     
-        webpage = urlopen(req).read().decode('utf8')
-        obj = json.loads(webpage)
-        response = obj['card_images'][0]['image_url']
+    webpage = urlopen(req).read().decode('utf8')
+    obj = json.loads(webpage)
+    response = obj['card_images'][0]['image_url']
     await ctx.send(response)
     
-@bot.command(name='mtg', help='Display a random MTG card')
+@bot.command(name='mtg', help='Display a MTG card')
 async def mtg(ctx, *args):
     if len(args):
         req = Request('https://api.scryfall.com/cards/named?fuzzy=' + "%20".join(args), headers={'User-Agent': 'Mozilla/5.0'})
