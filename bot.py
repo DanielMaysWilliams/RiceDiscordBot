@@ -100,7 +100,7 @@ imposter_names = ['Ethan', 'Daniel', 'Nathan', 'Sujay', 'Archana', 'Elizabeth', 
 @bot.command(name='imposter', help='There is one imposter among us')
 async def imposter(ctx):
     imposter_name = imposter_names[sum([ord(c) for c in str(datetime.date.today())]) % len(imposter_names)] # converts date into unique list idx
-    response = imposter_name + ' is the imposter!'
+    response = imposter_name + ' is the imposter today'
     await ctx.send(response)
   
 conch_answers = ["Yes.", "No.", "Maybe someday.", "Nothing.", "Neither.", "I don't think so.", "Try asking again."]
@@ -149,6 +149,16 @@ async def susctx):
 @bot.command(name='github', help='GitHub repo link')
 async def github(ctx):
     response = 'https://github.com/dmw2174/ChickenKitchenBot'
+    await ctx.send(response)
+    
+@bot.command(name='when', help='When in doubt...')
+async def when(ctx, *args):
+    if ' '.join(args) == 'in doubt':
+        response = 'Nathan out'
+    if ' '.join(args) == 'in doubt?':
+        response = 'Katie out'
+    if ' '.join(args) == 'in doubt...':
+        response = 'Wynne out'
     await ctx.send(response)
 
 command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg, norm, sus]
