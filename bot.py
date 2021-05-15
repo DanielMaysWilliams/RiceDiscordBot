@@ -123,6 +123,17 @@ async def ygo(ctx, *args):
         response = obj['card_images'][0]['image_url']
     await ctx.send(response)
     
+@bot.command(name='pfuse', help='Display a fused sprite of two Gen 1 Pokemon')
+async def pfuse(ctx, *args):
+    with open('gen1_pokemon.json') as f:
+        pokemon_mapping = json.load(f)
+        poke1 = args[0] if len(args) > 0 else random.choice(list(pokemon_mapping.keys()))
+        poke2 = args[1] if len(args) > 1 else random.choice(list(pokemon_mapping.keys()))
+        poke1_id = poke1 if poke1.isnumeric() and int(poke1) > 0 and int(poke1) < 152 else pokemon_mapping.get(poke1.lower(), "1")
+        poke2_id = poke2 if poke2.isnumeric() and int(poke2) > 0 and int(poke2) < 152 else pokemon_mapping.get(poke2.lower(), "1")
+        response = f"https://images.alexonsager.net/pokemon/fused/{poke1_id}/{poke1_id}.{poke2_id}.png"
+        await ctx.send(response)
+
 @bot.command(name='mtg', help='Display a MTG card')
 async def mtg(ctx, *args):
     if len(args):
@@ -156,7 +167,7 @@ async def when(ctx, *args):
         response = 'Wynne out'
     await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, mtg, norm, sus, when]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, pfuse, mtg, norm, sus, when]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
