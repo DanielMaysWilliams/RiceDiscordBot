@@ -167,7 +167,17 @@ async def when(ctx, *args):
         response = 'Wynne out'
     await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, pfuse, mtg, norm, sus, when]
+@bot.command(name='mad', help='I am very mad')
+async def mad(ctx):
+    response = "I am very mad. I drove all the way to CSU to play in a tournament, get stuck in traffic and lost against these stupid ass libs. Down threw polices and wouldn't stop stalling I really cannot think straight right now. I offered to MM him for more than $20. Nope. I thought I would have made it out of pools if I knew how to fucking pass a policy. But they didn't even give me the frames to do it. Bullshit, just straight up bullshit. Probably will never go to a tournament that dumb ass libs enter ever again. This definitely ruined my day."
+    await ctx.send(response)
+
+@bot.command(name='burn', help='I honestly don\'t know')
+async def burn(ctx):
+    response = 'My name is Nathan Bucki. \n I used to be a nerd, until...\n "We got a doctorate on you. You\'re rich."\n whistles\n When you\'re rich, you have everything.\n Tons of cash,\n Perfect credit.\n You\'re free to leave whatever resort you decide to stay in.\n "Where am I?"\n "Hawai\'i."\n You do whatever work is worthy of you.\n You narrow down all those who keep talking to you.\n A spending-happy ex best friend -\n "Shall we snake some ice cold cruisers?"\n An old roommate who used to inform on you to your high school buddy -\n "You know theorists. A bunch of bitchy little girls."\n Family too -\n "Bitch, I fly fighter jets."\n If you\'re desperate.\n Bottom line, as long as you\'re rich, you\'re going anywhere.'
+    await ctx.send(response)
+
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, pfuse, mtg, norm, sus, when, mad, burn]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
