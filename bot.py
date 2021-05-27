@@ -159,13 +159,12 @@ async def sus(ctx):
     
 @bot.command(name='when', help='When in doubt...')
 async def when(ctx, *args):
-    if ' '.join(args) == 'in doubt':
-        response = 'Nathan out'
-    elif ' '.join(args) == 'in doubt?':
-        response = 'Katie out'
-    elif ' '.join(args) == 'in doubt...':
-        response = 'Wynne out'
-    await ctx.send(response)
+    joined_arg = ' '.join(args)
+    if 'in doubt' in joined_arg:
+        choices = ['Katie', 'Nathan', 'Wynne']
+        choice = choices[datetime.datetime.now().minute % 3]
+        response = choice + ' out'
+        await ctx.send(response)
 
 @bot.command(name='mad', help='I am very mad')
 async def mad(ctx):
