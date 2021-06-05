@@ -96,7 +96,7 @@ async def buckibot(ctx):
 async def butterdog(ctx):
     await ctx.send(file=discord.File("butterdog.jpg"))
 
-imposter_names = ['Ethan', 'Daniel', 'Nathan', 'Sujay', 'Archana', 'Elizabeth', 'Grace', 'Karin', 'Nick', 'Tiffany', 'Wynne', 'Kevin', 'Bib']
+imposter_names = ['Ethan', 'Daniel', 'Nathan', 'Sujay', 'Archana', 'Dr. Elizabeth', 'Grace', 'Karin', 'Nick', 'Tiffany', 'Dr. Wynne', 'Kevin', 'Bib']
 @bot.command(name='imposter', help='There is one imposter among us')
 async def imposter(ctx):
     imposter_name = imposter_names[sum([ord(c) for c in str(datetime.date.today())]) % len(imposter_names)] # converts date into unique list idx
@@ -161,7 +161,7 @@ async def sus(ctx):
 async def when(ctx, *args):
     joined_arg = ' '.join(args)
     if 'in doubt' in joined_arg:
-        choices = ['Katie', 'Nathan', 'Wynne']
+        choices = ['Katie', 'Nathan', 'Dr. Wynne']
         choice = choices[datetime.datetime.now().minute % 3]
         response = choice + ' out'
         await ctx.send(response)
