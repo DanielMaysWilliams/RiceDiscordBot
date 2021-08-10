@@ -142,7 +142,13 @@ async def mtg(ctx, *args):
         req = Request('https://api.scryfall.com/cards/random', headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read().decode('utf8')
     obj = json.loads(webpage)
-    response = obj['image_uris']['normal']
+    if 'card_faces' in obj.keys():
+        if 'image_uris' in obj.keys(): # Split cards
+            response = obj['image_uris']['normal']
+        else: # Dual faced cards
+            response = '\n'.join([face['image_uris']['normal'] for face in obj['card_faces']])
+    else:
+        response = obj['image_uris']['normal']
     await ctx.send(response)
    
 @bot.command(name='norm', help='Probably inappropriate jokes with Norm Macdonald')
@@ -176,7 +182,13 @@ async def burn(ctx):
     response = 'My name is Nathan Bucki. \n I used to be a nerd, until...\n "We got a doctorate on you. You\'re rich."\n whistles\n When you\'re rich, you have everything.\n Tons of cash,\n Perfect credit.\n You\'re free to leave whatever resort you decide to stay in.\n "Where am I?"\n "Hawai\'i."\n You do whatever work is worthy of you.\n You narrow down all those who keep talking to you.\n A spending-happy ex best friend -\n "Shall we snake some ice cold cruisers?"\n An old roommate who used to inform on you to your high school buddy -\n "You know theorists. A bunch of bitchy little girls."\n Family too -\n "Bitch, I fly fighter jets."\n If you\'re desperate.\n Bottom line, as long as you\'re rich, you\'re going anywhere.'
     await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, ygo, pfuse, mtg, norm, sus, when, mad, burn]
+@bot.command(name='persona4', help='Every day\'s great at your Junes!')
+async def persona4(ctx):
+    print("persona4")
+    response = "https://media1.tenor.com/images/8dbdda6b59364b8cdff469889a68924f/tenor.gif?itemid=17075642"
+    await ctx.send(response)
+
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, norm, sus, when, mad, burn]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
