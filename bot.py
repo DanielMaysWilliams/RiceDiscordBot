@@ -143,14 +143,16 @@ async def mtg(ctx, *args):
         req = Request('https://api.scryfall.com/cards/random', headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read().decode('utf8')
     obj = json.loads(webpage)
+    response = []
     if 'card_faces' in obj.keys():
         if 'image_uris' in obj.keys(): # Split cards
-            response = obj['image_uris']['normal']
+            response.append(obj['image_uris']['normal'])
         else: # Dual faced cards
-            response = '\n'.join([face['image_uris']['normal'] for face in obj['card_faces']])
+            response.extend([face['image_uris']['normal'] for face in obj['card_faces']])
     else:
-        response = obj['image_uris']['normal']
-    await ctx.send(response)
+        response.append(obj['image_uris']['normal'])
+    for url in response:
+        await ctx.send(url)
    
 @bot.command(name='norm', help='Probably inappropriate jokes with Norm Macdonald')
 async def norm(ctx):
