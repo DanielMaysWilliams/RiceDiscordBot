@@ -172,6 +172,29 @@ async def when(ctx, *args):
         response = choice + ' out'
         await ctx.send(response)
 
+@bot.command(name='gameslist', help='Send a message for most games to play for voting')
+async def gameslist(ctx):
+	games_list = {
+		"Among Us": {"min": 8, "max": 15},
+		"Codenames": {"min": 6},
+		"Decryptr": {"min": 6},
+		"Gartic Phone": {"min": 5, "max": 14},
+		"Jackbox": {"min": 5, "max": 8},
+		"Longwave": {"min": 4, "max": 24},
+		"Love Letter": {"min": 2, "min": 4},
+		"One Night Werewolf": {"min": 6},
+		"Scattergories": {"min": 5},
+		"Secret Hitler": {"min": 6, "max": 10},
+		"Skribbl.io": {"min": 4, "max": 8},
+		"Spyfall": {"min": 6},
+		"Tabletop Sim / Board Game Arena": {"min": 3, "max": 8}
+	}
+    num_players = args[0] if len(args) > 0 and isinstance(args[0], int)
+	if num_players:
+		games_list = [game for game in games_list if games_list[game].get("min", 2) <= num_players and games_list[game].get("max", 20) >= num_players]
+	for game in games_list:
+        await ctx.send(game)
+
 @bot.command(name='mad', help='I am very mad')
 async def mad(ctx):
     response = "I am very mad. I drove all the way to CSU to play in a tournament, get stuck in traffic and lost against these stupid ass libs. Down threw polices and wouldn't stop stalling I really cannot think straight right now. I offered to MM him for more than $20. Nope. I thought I would have made it out of pools if I knew how to fucking pass a policy. But they didn't even give me the frames to do it. Bullshit, just straight up bullshit. Probably will never go to a tournament that dumb ass libs enter ever again. This definitely ruined my day."
