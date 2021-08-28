@@ -7,6 +7,7 @@ import re
 import discord
 from urllib.request import Request, urlopen
 import json
+import time
 
 from glob import glob
 from discord.ext import commands
@@ -173,25 +174,24 @@ async def when(ctx, *args):
         await ctx.send(response)
 
 @bot.command(name='gameslist', help='Send a message for most games to play for voting')
-async def gameslist(ctx):
-    games_list = {
+async def gameslist(ctx, number_of_players: int):
+    all_games_list = {
         "Among Us": {"min": 8, "max": 15},
-        "Codenames": {"min": 6},
-        "Decryptr": {"min": 6},
+        "Codenames": {"min": 6, "max": 20},
+        "Decryptr": {"min": 6, "max": 20},
         "Gartic Phone": {"min": 5, "max": 14},
         "Jackbox": {"min": 5, "max": 8},
         "Longwave": {"min": 4, "max": 24},
-        "Love Letter": {"min": 2, "min": 4},
-        "One Night Werewolf": {"min": 6},
-        "Scattergories": {"min": 5},
+        "Love Letter": {"min": 2, "max": 4},
+        "One Night Werewolf": {"min": 6, "max": 20},
+        "Scattergories": {"min": 5, "max": 20},
         "Secret Hitler": {"min": 6, "max": 10},
         "Skribbl.io": {"min": 4, "max": 8},
-        "Spyfall": {"min": 6},
+        "Spyfall": {"min": 6, "max": 20},
         "Tabletop Sim / Board Game Arena": {"min": 3, "max": 8}
     }
-    num_players = args[0] if len(args) > 0 and isinstance(args[0], int)
-    if num_players:
-        games_list = [game for game in games_list if games_list[game].get("min", 2) <= num_players and games_list[game].get("max", 20) >= num_players]
+    if number_of_players > 0:
+        games_list = [game for game in all_games_list if all_games_list[game]["min"] <= number_of_players and all_games_list[game]["max"] >= number_of_players]
     for game in games_list:
         await ctx.send(game)
 
