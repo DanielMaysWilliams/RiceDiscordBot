@@ -177,25 +177,33 @@ async def when(ctx, *args):
 
 @bot.command(name='gameslist', help='Send a message for most games to play for voting')
 async def gameslist(ctx, number_of_players: int):
-    all_games_list = {
-        "Among Us": {"min": 8, "max": 15},
-        "Codenames": {"min": 6, "max": 20},
-        "Decryptr": {"min": 6, "max": 20},
-        "Gartic Phone": {"min": 5, "max": 14},
-        "Jackbox": {"min": 5, "max": 8},
-        "Longwave": {"min": 4, "max": 24},
-        "Love Letter": {"min": 2, "max": 4},
-        "One Night Werewolf": {"min": 6, "max": 20},
-        "Scattergories": {"min": 5, "max": 20},
-        "Secret Hitler": {"min": 6, "max": 10},
-        "Skribbl.io": {"min": 4, "max": 8},
-        "Spyfall": {"min": 6, "max": 20},
-        "Tabletop Sim / Board Game Arena": {"min": 3, "max": 8}
+    all_games = {
+        "Among Us": {"min": 8, "max": 15, "link": "https://store.steampowered.com/app/945360/Among_Us/"},
+        "Codenames": {"min": 6, "max": 20, "link": "https://codenames.game/room/create"},
+        "Decryptr": {"min": 6, "max": 20, "link": "https://www.decryptr.io/games/new/custom"},
+        "Gartic Phone": {"min": 5, "max": 14, "link": "https://garticphone.com/"},
+        "Jackbox": {"min": 5, "max": 8, "link": "https://jackbox.tv/#/"},
+        "Longwave": {"min": 4, "max": 24, "link": "https://longwave.web.app/"},
+        "Love Letter": {"min": 2, "max": 4, "link": "https://netgames.io/games/love-letter/"},
+        "One Night Werewolf": {"min": 6, "max": 20, "link": "https://netgames.io/games/onu-werewolf/"},
+        "Scattergories": {"min": 5, "max": 20, "link": "https://really.boring.website/"},
+        "Secret Hitler": {"min": 6, "max": 10, "link": "https://secrethitler.io/"},
+        "Skribbl.io": {"min": 4, "max": 8, "link": "https://skribbl.io/"},
+        "Spyfall": {"min": 6, "max": 20, "link": "https://www.spyfall.app/"},
+        "Tabletop Sim / Board Game Arena": {"min": 3, "max": 8, "link": "https://boardgamearena.com/gamelist"}
     }
-    if number_of_players > 0:
-        games_list = [game for game in all_games_list if all_games_list[game]["min"] <= number_of_players and all_games_list[game]["max"] >= number_of_players]
-    for game in games_list:
-        await ctx.send(game)
+    reactions = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🇦", "🇧", "🇨", "🇩", "🇪", "🇫"]
+    # Set 8 as default number of players
+    number_of_players = number_of_players if number_of_players > 0 else 8
+    games_list = {key:value for (key,value) in all_games.items() if value["min"] <= number_of_players and value["max"] >= number_of_players}
+    embed = discord.Embed(title=f"Poll: Games for {number_of_players} players")
+    games_message = []
+    for i, (game, info) in enumerate(games_list.items()):
+        games_message.append(f"{reactions[i]} [{game}]({info['link']})")
+    embed.description = "\n".join(games_message)
+    message = await ctx.send(embed=embed)
+    for reaction in reactions[:len(games_list)]:
+        await message.add_reaction(reaction)
 
 @bot.command(name='mad', help='I am very mad')
 async def mad(ctx):
