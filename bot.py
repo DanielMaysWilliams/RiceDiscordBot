@@ -217,11 +217,14 @@ async def burn(ctx):
 
 @bot.command(name='persona4', help='Every day\'s great at your Junes!')
 async def persona4(ctx):
-    print("persona4")
     response = "https://media1.tenor.com/images/8dbdda6b59364b8cdff469889a68924f/tenor.gif?itemid=17075642"
     await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, norm, sus, when, mad, burn]
+@bot.command(name='relax', help='Chill out my dudes')
+async def relax(ctx):
+    await ctx.send(file=discord.File("relax.png"))
+
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, norm, sus, when, mad, burn, relax]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
