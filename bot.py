@@ -224,7 +224,19 @@ async def persona4(ctx):
 async def relax(ctx):
     await ctx.send(file=discord.File("relax.png"))
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, norm, sus, when, mad, burn, relax]
+@bot.command(name='loss', help='Is this loss?')
+async def loss(ctx):
+    response = """
+    |    \||
+\||   |_
+    """
+    await ctx.send(response)
+
+@bot.command(name='doorstuck', help='Tried to sneak through the door')
+async def doorstuck(ctx):
+    await ctx.send('https://www.youtube.com/watch?v=VqB1uoDTdKM')
+
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, norm, sus, when, mad, burn, relax, loss, doorstuck]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
     await random.choice(command_list)(ctx)
