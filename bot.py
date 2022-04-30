@@ -92,7 +92,7 @@ async def developers(ctx):
 async def buckibot(ctx):
     response = 'Nathan how could you do this to me'
     await ctx.send(response)
-    
+
 @bot.command(name='butterdog', help='The dog with the butter on it')
 async def butterdog(ctx):
     await ctx.send(file=discord.File("butterdog.jpg"))
@@ -103,13 +103,13 @@ async def imposter(ctx):
     imposter_name = imposter_names[sum([ord(c) for c in str(datetime.date.today())]) % len(imposter_names)] # converts date into unique list idx
     response = imposter_name + ' is the imposter today'
     await ctx.send(response)
-  
+
 conch_answers = ["Yes.", "No.", "Maybe someday.", "Nothing.", "Neither.", "I don't think so.", "Try asking again."]
 @bot.command(name='conch', help='The Magic Conch shell')
 async def conch(ctx):
     response = random.choice(conch_answers)
     await ctx.send(response)
-   
+
 @bot.command(name='ygo', help='Display a random YuGiOh card')
 async def ygo(ctx, *args):
     if len(args):
@@ -118,12 +118,12 @@ async def ygo(ctx, *args):
         obj = json.loads(webpage)
         response = obj['data'][0]['card_images'][0]['image_url']
     else:
-        req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})     
+        req = Request('https://db.ygoprodeck.com/api/v7/randomcard.php', headers={'User-Agent': 'Mozilla/5.0'})
         webpage = urlopen(req).read().decode('utf8')
         obj = json.loads(webpage)
         response = obj['card_images'][0]['image_url']
     await ctx.send(response)
-    
+
 @bot.command(name='pfuse', help='Display a fused sprite of two Gen 1 Pokemon')
 async def pfuse(ctx, *args):
     with open('gen1_pokemon.json') as f:
@@ -139,7 +139,7 @@ async def pfuse(ctx, *args):
 async def mtg(ctx, *args):
     if len(args):
         req = Request('https://api.scryfall.com/cards/named?fuzzy=' + "%20".join(args), headers={'User-Agent': 'Mozilla/5.0'})
-    else: 
+    else:
         req = Request('https://api.scryfall.com/cards/random', headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read().decode('utf8')
     obj = json.loads(webpage)
@@ -153,7 +153,7 @@ async def mtg(ctx, *args):
         response.append(obj['image_uris']['normal'])
     for url in response:
         await ctx.send(url)
-   
+
 @bot.command(name='norm', help='Probably inappropriate jokes with Norm Macdonald')
 async def norm(ctx):
     with open("jokes.list", 'r') as f:
@@ -161,11 +161,11 @@ async def norm(ctx):
 
     response = random.choice(jokes)
     await ctx.send(response)
-    
+
 @bot.command(name='sus', help='When the...')
 async def sus(ctx):
     await ctx.send(file=discord.File("sus.png"))
-    
+
 @bot.command(name='when', help='When in doubt...')
 async def when(ctx, *args):
     joined_arg = ' '.join(args)
@@ -254,7 +254,12 @@ async def zombocom(ctx):
 async def github(ctx):
     response = 'https://github.com/dmw2174/ChickenKitchenBot'
     await ctx.send(response)
-    
+
+@bot.command(name='seal', help='Seal CopyPasta')
+async def seal(ctx):
+    response = "What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little \"clever\" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo."
+    await ctx.send(response)
+
 # @bot.command(name='create-channel')
 # @commands.has_role('admin')
 # async def create_channel(ctx, channel_name='test-channel'):
