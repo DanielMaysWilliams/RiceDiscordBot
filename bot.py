@@ -113,7 +113,7 @@ async def conch(ctx):
 @bot.command(name='ygo', help='Display a random YuGiOh card')
 async def ygo(ctx, *args):
     if len(args):
-        req = Request('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + "%20".join(args), headers={'User-Agent': 'Mozilla/5.0'})
+        req = Request('https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=' + "%20".join(args), headers={'User-Agent': 'Mozilla/5.0'})
         webpage = urlopen(req).read().decode('utf8')
         obj = json.loads(webpage)
         response = obj['data'][0]['card_images'][0]['image_url']
@@ -235,6 +235,15 @@ async def loss(ctx):
 @bot.command(name='doorstuck', help='Tried to sneak through the door')
 async def doorstuck(ctx):
     await ctx.send('https://www.youtube.com/watch?v=VqB1uoDTdKM')
+
+@bot.command(name='honor', help='Commend someone')
+async def honor(ctx, target: str):
+    honors = [f'Shoutout to {target} for staying cool.',
+              f'Great shotcalling {target}!',
+              f'GG <3 {target}'
+             ]
+    response = random.choice(honors)
+    await ctx.send(response)
 
 command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, norm, sus, when, mad, burn, relax, loss, doorstuck]
 @bot.command(name='zombocom', help='Anything is possible')
