@@ -3,22 +3,29 @@ from dis import disco
 import os
 import random
 import datetime
-import re
 import discord
 from urllib.request import Request, urlopen
 import json
-import time
+import config
 
 from glob import glob
 from discord.ext import commands
-from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-# print(TOKEN)
 print(datetime.datetime.today())
 
-bot  = commands.Bot(command_prefix='!')
+bot  = commands.Bot(command_prefix=config.COMMAND_PREFIX)
+
+# Get the path to the parent directory of the current directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+
+# Get the path to the resources directory relative to the parent directory
+resources_dir = os.path.join(parent_dir, 'resources')
+
+def exclude_from_zombocom():
+    def predicate(ctx):
+        # Return False if the command was called from zombocom
+        return ctx.command is not zombocom
+    return commands.check(predicate)
 
 @bot.event
 async def on_ready():
@@ -51,7 +58,7 @@ async def roll(ctx, number_of_dice: int, number_of_sides: str):
 
 @bot.command(name='sujay', help='Wisdom from the Habanero Javanero')
 async def sujay(ctx):
-    with open("sujay.list", 'r') as f:
+    with open(os.path.join(resources_dir, "sujay.list"), 'r') as f:
         sujay_quotes = f.read().split('\n,\n')
 
     response = random.choice(sujay_quotes)
@@ -73,20 +80,20 @@ async def mike(ctx):
 
 @bot.command(name='cynical', help='Calms down Sujay')
 async def cynical(ctx):
-    await ctx.send(file=discord.File('cynical.png'))
+    await ctx.send(file=discord.File(os.path.join(resources_dir, 'cynical.png')))
 
 @bot.command(name='korn', help="why")
 async def korn(ctx):
-    response = random.choice(glob("kornheiserish/*"))
+    response = random.choice(glob(os.path.join(resources_dir, "kornheiserish/*")))
     await ctx.send(file=discord.File(response))
 
 @bot.command(name='corn', help='Nick in high school')
 async def corn(ctx):
-    await ctx.send(file=discord.File("corn.png"))
+    await ctx.send(file=discord.File(os.path.join(resources_dir, "corn.png")))
 
 @bot.command(name='developers', help='Developers')
 async def developers(ctx):
-    await ctx.send(file=discord.File("developers.gif"))
+    await ctx.send(file=discord.File(os.path.join(resources_dir, "developers.gif")))
 
 @bot.command(name='buckibot', help='Fuck you Nathan!')
 async def buckibot(ctx):
@@ -95,7 +102,7 @@ async def buckibot(ctx):
     
 @bot.command(name='butterdog', help='The dog with the butter on it')
 async def butterdog(ctx):
-    await ctx.send(file=discord.File("butterdog.jpg"))
+    await ctx.send(file=discord.File(os.path.join(resources_dir, "butterdog.jpg")))
 
 imposter_names = ['Ethan', 'Daniel', 'Nathan', 'Sujay', 'Archana', 'Dr. Elizabeth', 'Grace', 'Karin', 'Nick', 'Tiffany', 'Dr. Wynne', 'Kevin', 'Bib']
 @bot.command(name='imposter', help='There is one imposter among us')
@@ -126,7 +133,7 @@ async def ygo(ctx, *args):
     
 @bot.command(name='pfuse', help='Display a fused sprite of two Gen 1 Pokemon')
 async def pfuse(ctx, *args):
-    with open('gen1_pokemon.json') as f:
+    with open(os.path.join(resources_dir, 'gen1_pokemon.json')) as f:
         pokemon_mapping = json.load(f)
         poke1 = args[0] if len(args) > 0 else random.choice(list(pokemon_mapping.keys()))
         poke2 = args[1] if len(args) > 1 else random.choice(list(pokemon_mapping.keys()))
@@ -154,17 +161,9 @@ async def mtg(ctx, *args):
     for url in response:
         await ctx.send(url)
    
-@bot.command(name='norm', help='Probably inappropriate jokes with Norm Macdonald')
-async def norm(ctx):
-    with open("jokes.list", 'r') as f:
-        jokes = f.read().split('\n,\n')
-
-    response = random.choice(jokes)
-    await ctx.send(response)
-    
 @bot.command(name='sus', help='When the...')
 async def sus(ctx):
-    await ctx.send(file=discord.File("sus.png"))
+    await ctx.send(file=discord.File(os.path.join(resources_dir, "sus.png")))
     
 @bot.command(name='when', help='When in doubt...')
 async def when(ctx, *args):
@@ -222,7 +221,7 @@ async def persona4(ctx):
 
 @bot.command(name='relax', help='Chill out my dudes')
 async def relax(ctx):
-    await ctx.send(file=discord.File("relax.png"))
+    await ctx.send(file=discord.File(os.path.join(resources_dir, "relax.png")))
 
 @bot.command(name='loss', help='Is this loss?')
 async def loss(ctx):
@@ -245,24 +244,17 @@ async def honor(ctx, target: str):
     response = random.choice(honors)
     await ctx.send(response)
 
-command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, norm, sus, when, mad, burn, relax, loss, doorstuck]
+command_list = [rice_maps, sujay, mike, cynical, korn, corn, developers, buckibot, butterdog, imposter, conch, pfuse, mtg, sus, when, mad, burn, relax, loss, doorstuck]
 @bot.command(name='zombocom', help='Anything is possible')
 async def zombocom(ctx):
-    await random.choice(command_list)(ctx)
+    available_commands = [cmd for cmd in bot.commands if not cmd.checks or not cmd.checks[0](ctx)]
+    command = random.choice(available_commands)
+    await command.callback(ctx)
 
 @bot.command(name='github', help='GitHub repo link')
+@exclude_from_zombocom()
 async def github(ctx):
     response = 'https://github.com/dmw2174/ChickenKitchenBot'
     await ctx.send(response)
     
-# @bot.command(name='create-channel')
-# @commands.has_role('admin')
-# async def create_channel(ctx, channel_name='test-channel'):
-#     guild = ctx.guild
-#     channel_name = re.sub('[^a-zA-Z0-9-]+', '', channel_name)
-#     existing_channel = discord.utils.get(guild.channels, name=channel_name)
-#     if not existing_channel:
-#         print(f'Creating a new channel : {channel_name}')
-#         await guild.create_text_channel(channel_name)
-
-bot.run(TOKEN)
+bot.run(config.DISCORD_TOKEN)
